@@ -117,6 +117,14 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
               <p className="font-label-sm text-label-sm text-secondary">Organizador</p>
             </div>
           </div>
+          <Link
+            className={`inline-flex items-center gap-1 self-start font-label-sm text-label-sm ${pathname === "/dashboard/senha" ? "font-semibold text-primary" : "text-on-surface-variant hover:text-primary"}`}
+            href="/dashboard/senha"
+            onClick={() => setOpen(false)}
+          >
+            <Icon name="lock" className="text-[16px]" />
+            Trocar senha
+          </Link>
           <div className="flex items-center justify-between">
             <Link className="inline-flex items-center gap-1 font-label-sm text-label-sm text-on-surface-variant hover:text-primary" href="/">
               <Icon name="open_in_new" className="text-[16px]" />

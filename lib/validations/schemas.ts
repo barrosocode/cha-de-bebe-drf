@@ -10,6 +10,17 @@ export const loginSchema = z.object({
   remember: z.boolean(),
 });
 
+export const changePasswordSchema = z
+  .object({
+    old_password: z.string().min(1, "Informe a senha atual."),
+    new_password: z.string().min(8, "A nova senha deve ter no mínimo 8 caracteres."),
+    new_password_confirmation: z.string().min(1, "Confirme a nova senha."),
+  })
+  .refine((values) => values.new_password === values.new_password_confirmation, {
+    message: "A confirmação não confere com a nova senha.",
+    path: ["new_password_confirmation"],
+  });
+
 export const guestSchema = z.object({
   name: z.string().trim().min(1, "Informe o nome").max(255, "O nome pode ter no máximo 255 caracteres"),
   age: z.enum(["adult", "kid"], { required_error: "Selecione a idade" }),
@@ -40,6 +51,7 @@ export const inviteCodeSchema = z
   .regex(/^[A-Z0-9]{6}$/, "O código tem 6 letras ou números");
 
 export type LoginValues = z.infer<typeof loginSchema>;
+export type ChangePasswordValues = z.infer<typeof changePasswordSchema>;
 export type GuestValues = z.infer<typeof guestSchema>;
 export type InviteValues = z.infer<typeof inviteSchema>;
 export type GiftValues = z.infer<typeof giftSchema>;

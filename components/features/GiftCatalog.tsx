@@ -13,6 +13,7 @@ export function GiftCatalog() {
   const [search, setSearch] = useState("");
   const [tag, setTag] = useState("all");
   const [selected, setSelected] = useState<Gift | null>(null);
+  const [details, setDetails] = useState<Gift | null>(null);
 
   const tags = useMemo(() => {
     const names = new Set<string>();
@@ -87,7 +88,10 @@ export function GiftCatalog() {
                     <p className="mt-3 font-label-sm text-label-sm text-on-surface-variant">Até {gift.limit} {gift.limit === 1 ? "escolha" : "escolhas"}</p>
                   </div>
                 </div>
-                <div className="p-4 pt-0">
+                <div className="flex flex-col gap-2 p-4 pt-0">
+                  <button className="flex w-full items-center justify-center gap-1.5 rounded-full border border-outline-variant py-2.5 font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-low" type="button" onClick={() => setDetails(gift)}>
+                    Ver detalhes
+                  </button>
                   <button className="flex w-full items-center justify-center gap-1.5 rounded-full bg-surface-container-low py-2.5 font-label-md text-label-md text-primary hover:bg-primary hover:text-on-primary" type="button" onClick={() => setSelected(gift)}>
                     <Icon name="favorite" className="text-[18px]" />
                     Presentear Catarina
@@ -99,8 +103,81 @@ export function GiftCatalog() {
         </div>
         {gifts.data && visible.length === 0 ? <p className="mt-6 text-center font-body-md text-body-md text-on-surface-variant">Nenhum presente encontrado.</p> : null}
       </div>
+      {details ? (
+        <GiftDetailsModal
+          gift={details}
+          onClose={() => setDetails(null)}
+          onPresent={() => {
+            setDetails(null);
+            setSelected(details);
+          }}
+        />
+      ) : null}
       {selected ? <PurchaseModal gift={selected} onClose={() => setSelected(null)} /> : null}
     </section>
+  );
+}
+
+function GiftDetailsModal({ gift, onClose, onPresent }: { gift: Gift; onClose: () => void; onPresent: () => void }) {
+  const image = gift.files.find((file) => file.image_url)?.image_url;
+  const description = gift.description || "Um carinho escolhido para a Catarina.";
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-inverse-surface/40 p-4 backdrop-blur-sm" onClick={onClose}>
+      <div
+        className="max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-xl bg-surface-container-lowest shadow-2xl"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="gift-details-title"
+        onClick={(event) => event.stopPropagation()}
+      >
+        <div className="relative h-64 bg-surface-container-low">
+          {image ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img alt={gift.name} className="h-full w-full object-cover" src={image} />
+          ) : (
+            <div className="flex h-full items-center justify-center text-primary">
+              <Icon name="card_giftcard" className="text-[48px]" />
+            </div>
+          )}
+          <button aria-label="Fechar" className="absolute top-3 right-3 flex h-9 w-9 items-center justify-center rounded-full bg-surface-container-lowest/90 text-on-surface" type="button" onClick={onClose}>
+            <Icon name="close" />
+          </button>
+        </div>
+        <div className="flex flex-col gap-4 p-6">
+          <h3 id="gift-details-title" className="font-headline-sm text-headline-sm text-on-surface">
+            {gift.name}
+          </h3>
+          <p className="font-body-md text-body-md text-on-surface-variant">{description}</p>
+          {gift.tags.length > 0 ? (
+            <div className="flex flex-wrap gap-2">
+              {gift.tags.map((item) => (
+                <span key={item.uuid} className="rounded-full bg-surface-container-low px-3 py-1 font-label-sm text-label-sm text-secondary">
+                  {item.name}
+                </span>
+              ))}
+            </div>
+          ) : null}
+          {gift.link ? (
+            <p className="font-body-sm text-body-sm text-on-surface-variant">
+              Nesse link você encontra o presente num preço legal{" "}
+              <a className="break-all font-semibold text-primary underline" href={gift.link} target="_blank" rel="noopener noreferrer">
+                {gift.link}
+              </a>
+            </p>
+          ) : null}
+          <div className="flex flex-col gap-2 sm:flex-row">
+            <button className="flex flex-1 items-center justify-center gap-1.5 rounded-full bg-primary py-2.5 font-label-md text-label-md text-on-primary" type="button" onClick={onPresent}>
+              <Icon name="favorite" className="text-[18px]" />
+              Presentear Catarina
+            </button>
+            <button className="flex-1 rounded-full bg-surface-container-high py-2.5 font-label-md text-label-md text-on-surface-variant" type="button" onClick={onClose}>
+              Voltar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
 

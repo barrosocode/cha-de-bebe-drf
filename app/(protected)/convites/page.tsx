@@ -29,7 +29,7 @@ export default function InvitesPage() {
 
 É com muita alegria que queremos convidá-los para o *chá de bebê* de *Catarina* que acontecerá dia 28/11/2026 .
 
-Pedimos que veja os detalhes e confirme sua presença pelo link https://cha-de-bebe-drf.vercel.app/  usando o código
+Pedimos que confiram os detalhes e confirmem sua presença pelo link https://cha-de-bebe-drf.vercel.app/  usando o código
 
 *${code}*
 

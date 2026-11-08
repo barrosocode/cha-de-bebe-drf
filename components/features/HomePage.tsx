@@ -65,8 +65,8 @@ export function HomePage() {
         ) : null}
       </header>
       <main className="pt-20">
-        <section className="relative pb-space-2xl" id="convite">
-          <div className="pointer-events-none absolute top-0 left-1/2 h-[380px] w-[720px] -translate-x-1/2 rounded-full bg-gradient-to-b from-primary-container/25 via-secondary-fixed/20 to-transparent blur-3xl" />
+        <section className="relative overflow-x-clip pb-space-2xl" id="convite">
+          <div className="pointer-events-none absolute top-0 left-1/2 h-[380px] w-[720px] max-w-full -translate-x-1/2 rounded-full bg-gradient-to-b from-primary-container/25 via-secondary-fixed/20 to-transparent blur-3xl" />
           <div className="relative z-10 mx-auto max-w-[1120px] px-margin pt-space-xl md:px-margin-tablet lg:px-margin-desktop">
             <div className="mb-4 flex justify-center">
               <span className="inline-flex items-center gap-2 rounded-full bg-surface-container-high/70 px-4 py-1 font-label-md text-label-md tracking-wider text-secondary uppercase">

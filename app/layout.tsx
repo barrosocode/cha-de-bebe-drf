@@ -1,19 +1,22 @@
 import type { Metadata } from "next";
-import { Outfit, Playfair_Display } from "next/font/google";
+import localFont from "next/font/local";
 import { Providers } from "@/components/providers";
 import "./globals.css";
 
-const outfit = Outfit({
-  subsets: ["latin"],
+const outfit = localFont({
+  src: "../fonts/outfit-latin.woff2",
   variable: "--font-outfit",
-  weight: ["300", "400", "500", "600", "700"],
+  weight: "300 700",
+  display: "swap",
 });
 
-const playfair = Playfair_Display({
-  subsets: ["latin"],
-  style: ["normal", "italic"],
+const playfair = localFont({
+  src: [
+    { path: "../fonts/playfair-latin.woff2", weight: "400 700", style: "normal" },
+    { path: "../fonts/playfair-latin-italic.woff2", weight: "400 700", style: "italic" },
+  ],
   variable: "--font-playfair",
-  weight: ["400", "500", "600", "700"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {

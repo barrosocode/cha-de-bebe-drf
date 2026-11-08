@@ -24,6 +24,16 @@ export default function InvitesPage() {
     return (guests.data ?? []).filter((guest) => guest.invite === inviteId).length;
   }
 
+  function inviteMessage(name: string) {
+    return `Oii, ${name}!
+
+É com muita alegria que queremos convidá-los para o *chá de bebê* de *Catarina* que acontecerá dia 28/11/2026 .
+
+Pedimos que veja os detalhes e confirme sua presença pelo link https://cha-de-bebe-drf.vercel.app/
+
+Esperamos vocês.`;
+  }
+
   return (
     <div>
       <PageIntro
@@ -56,8 +66,8 @@ export default function InvitesPage() {
                     className="inline-flex items-center gap-1 rounded-full bg-surface-container px-3 py-1.5 font-label-sm text-label-sm"
                     type="button"
                     onClick={async () => {
-                      await navigator.clipboard.writeText(invite.code);
-                      toast.success("Código copiado.");
+                      await navigator.clipboard.writeText(inviteMessage(invite.name));
+                      toast.success("Convite copiado.");
                     }}
                   >
                     <Icon name="content_copy" className="text-[16px]" />
